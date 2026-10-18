@@ -1,0 +1,310 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Buat Zuca</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+/* Layout: satu kolom sempit ala kartu stiker. Hero kuning, kartu ucapan miring tipis, tombol bergaya stiker bertepi tebal, surat di kertas putih. */
+:root{
+  --bg:#F5F7FF; --surface:#FFFFFF; --ink:#1E2150; --muted:#585C8C; --edge:#1E2150; --line:#D9DEFA;
+  --pink:#FF5C8A; --yellow:#FFD23F; --mint:#34C9A8; --blue:#4F7BFF;
+  --pink-soft:#FFE3EC; --yellow-soft:#FFF1B8; --mint-soft:#D3F5EC; --blue-soft:#DCE6FF;
+  --btn-pink:#FF8FB1; --btn-mint:#5BD9BE; --btn-blue:#8FB0FF; --btn-yellow:#FFD23F; --on-btn:#1E2150;
+  --font-display:'Fredoka','Trebuchet MS',system-ui,sans-serif;
+  --font-body:'Nunito',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --font-mono:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#15172E; --surface:#1F2245; --ink:#F3F1FF; --muted:#A9ADD6; --edge:#080915; --line:#323670;
+    --pink-soft:#4A2540; --yellow-soft:#4A4220; --mint-soft:#1E4A45; --blue-soft:#26356E;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#15172E; --surface:#1F2245; --ink:#F3F1FF; --muted:#A9ADD6; --edge:#080915; --line:#323670;
+  --pink-soft:#4A2540; --yellow-soft:#4A4220; --mint-soft:#1E4A45; --blue-soft:#26356E;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{
+  background:var(--bg); color:var(--ink);
+  font-family:var(--font-body); font-size:16px; line-height:1.6;
+  padding-inline:16px; padding-block:20px 48px;
+}
+main{max-width:640px; margin-inline:auto; display:flex; flex-direction:column; gap:44px}
+h1,h2,h3{font-family:var(--font-display); margin:0; text-wrap:balance; line-height:1.1}
+p{margin:0}
+:focus-visible{outline:3px solid var(--blue); outline-offset:3px; border-radius:8px}
+
+/* Hero */
+.hero{position:relative; overflow:hidden; background:var(--yellow-soft); border:2px solid var(--edge); border-radius:28px; padding:28px 22px 24px; display:flex; flex-direction:column; gap:16px}
+.hero .dot{position:absolute; border-radius:50%; pointer-events:none}
+.hero .d1{width:120px; height:120px; background:var(--pink); opacity:.28; right:-34px; top:-34px}
+.hero .d2{width:70px; height:70px; background:var(--mint); opacity:.4; right:46px; bottom:-26px}
+.hero h1{font-size:clamp(2.3rem,10vw,3.5rem); font-weight:700; position:relative}
+.hero h1 em{font-style:normal; color:var(--pink); text-decoration:underline wavy var(--blue) .09em; text-underline-offset:.14em; text-decoration-skip-ink:none}
+.hero p{max-width:46ch; position:relative}
+.log{position:relative; align-self:flex-start; max-width:100%; background:var(--surface); border:2px solid var(--edge); border-radius:14px; padding:10px 14px; font-family:var(--font-mono); font-size:.8rem; line-height:1.7; overflow-wrap:anywhere}
+.log span{color:var(--muted)}
+
+/* Section head */
+.head{display:flex; flex-direction:column; gap:6px; margin-bottom:16px}
+.head h2{font-size:1.7rem; font-weight:600}
+.head p{color:var(--muted); max-width:52ch}
+
+/* Ucapan */
+.cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:16px}
+.card{border:2px solid var(--edge); border-radius:22px; padding:18px 18px 20px; display:flex; flex-direction:column; gap:8px; min-width:0}
+.card h3{font-size:1.2rem; font-weight:600}
+.card:nth-child(1){background:var(--pink-soft); transform:rotate(-1.2deg)}
+.card:nth-child(2){background:var(--mint-soft); transform:rotate(1deg)}
+.card:nth-child(3){background:var(--blue-soft); transform:rotate(.8deg)}
+.card:nth-child(4){background:var(--yellow-soft); transform:rotate(-1deg)}
+.card{transition:transform .2s ease}
+.card:hover{transform:rotate(0)}
+
+/* Tombol stiker */
+.btn{
+  font-family:var(--font-display); font-weight:600; font-size:1rem; line-height:1.2; color:var(--on-btn);
+  background:var(--btn-yellow); border:2px solid var(--edge); border-radius:16px; padding:14px 12px;
+  box-shadow:0 4px 0 var(--edge); cursor:pointer; transition:transform .08s ease, box-shadow .08s ease; min-height:56px;
+}
+.btn:hover{transform:translateY(-1px); box-shadow:0 5px 0 var(--edge)}
+.btn:active{transform:translateY(4px); box-shadow:0 0 0 var(--edge)}
+.btn.pink{background:var(--btn-pink)} .btn.mint{background:var(--btn-mint)} .btn.blue{background:var(--btn-blue)}
+.moods{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px}
+.bubble{margin-top:18px; min-height:7.2rem; background:var(--surface); border:2px solid var(--edge); border-radius:22px; padding:18px 20px; display:flex; align-items:center; font-size:1.05rem; font-weight:600}
+.bubble.idle{color:var(--muted); font-weight:400}
+.bubble.pop{animation:pop .35s ease}
+@keyframes pop{0%{transform:scale(.96)}60%{transform:scale(1.015)}100%{transform:scale(1)}}
+
+/* Napas dan peluk */
+.duo{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:16px}
+.panel{position:relative; overflow:hidden; border:2px solid var(--edge); border-radius:24px; padding:20px; display:flex; flex-direction:column; align-items:center; gap:14px; text-align:center; min-width:0}
+.panel.breath{background:var(--blue-soft)}
+.panel.hug{background:var(--pink-soft)}
+.panel h3{font-size:1.25rem; font-weight:600}
+.panel p.sub{color:var(--muted); font-size:.95rem; max-width:34ch}
+.stage{width:100%; height:200px; display:flex; align-items:center; justify-content:center}
+.orb{width:110px; height:110px; border-radius:50%; background:var(--blue); border:2px solid var(--edge); display:flex; align-items:center; justify-content:center; transition-property:transform; transition-timing-function:ease-in-out; transform:scale(1)}
+.orb-label{font-family:var(--font-display); font-weight:600; font-size:1.2rem; min-height:1.6em}
+.hug-count{font-family:var(--font-mono); font-size:.85rem; color:var(--muted); min-height:1.5em}
+.heart{position:absolute; bottom:56px; color:var(--pink); font-size:1.6rem; pointer-events:none; animation:floatup 1.5s ease-out forwards}
+@keyframes floatup{0%{transform:translateY(0) scale(.6); opacity:1}100%{transform:translateY(-150px) scale(1.3); opacity:0}}
+
+/* Surat */
+.letter{background:var(--surface); border:2px solid var(--edge); border-radius:24px; padding:26px 22px; display:flex; flex-direction:column; gap:16px; box-shadow:0 6px 0 var(--edge)}
+.letter p{max-width:62ch; font-size:1.05rem; line-height:1.75}
+.letter .to{font-family:var(--font-display); font-size:1.5rem; font-weight:600}
+.letter .sign{font-family:var(--font-display); font-weight:600; font-size:1.7rem; color:var(--pink); margin-top:4px}
+footer{color:var(--muted); font-size:.9rem; text-align:center}
+
+@media (prefers-reduced-motion: reduce){
+  .card,.card:hover{transition:none; transform:none}
+  .btn{transition:none}
+  .bubble.pop{animation:none}
+  .orb{transition:none !important}
+  .heart{animation-duration:.01s}
+}
+</style>
+
+<main>
+  <header class="hero">
+    <span class="dot d1" aria-hidden="true"></span>
+    <span class="dot d2" aria-hidden="true"></span>
+    <h1>Malam, <em>Zuca</em>.</h1>
+    <p>Hari ini berat ya. Halaman ini dibikin Okan khusus buat kamu, isinya cuma hal-hal yang enak dibaca pas lagi capek. Pelan-pelan aja, enggak ada yang buru-buru.</p>
+    <div class="log" aria-label="Catatan hari ini">
+      <div><span>epoch_hari_ini</span> : 1 (panjang banget)</div>
+      <div><span>loss</span> : capek</div>
+      <div><span>status</span> : early stopping, istirahat dulu</div>
+    </div>
+  </header>
+
+  <section aria-labelledby="h-ucapan">
+    <div class="head">
+      <h2 id="h-ucapan">Buat kamu yang udah berusaha</h2>
+      <p>Empat hal yang mau Okan bilang langsung ke kamu.</p>
+    </div>
+    <div class="cards">
+      <article class="card">
+        <h3>Kamu udah cukup</h3>
+        <p>Hari ini kamu udah ngurusin banyak hal buat orang lain. Buat malam ini, ngurusin diri sendiri udah lebih dari cukup.</p>
+      </article>
+      <article class="card">
+        <h3>Capek itu wajar</h3>
+        <p>Orang yang peduli sama kerjaannya memang gampang capek. Itu bukan tanda kamu lemah.</p>
+      </article>
+      <article class="card">
+        <h3>Timmu beruntung</h3>
+        <p>Orang yang masih mikirin timnya sampai pulang kerja itu langka. Kalau hari ini belum ada yang bilang makasih, Okan yang bilang duluan.</p>
+      </article>
+      <article class="card">
+        <h3>Besok boleh pelan</h3>
+        <p>Besok enggak harus langsung ngebut. Mulai dari satu hal kecil juga udah jalan.</p>
+      </article>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-tombol">
+    <div class="head">
+      <h2 id="h-tombol">Pencet sesuai rasa kamu</h2>
+      <p>Tiap tombol punya beberapa jawaban. Pencet lagi kalau mau yang lain.</p>
+    </div>
+    <div class="moods">
+      <button class="btn pink" type="button" data-mood="capek">Klik kalau lagi capek</button>
+      <button class="btn blue" type="button" data-mood="sedih">Klik kalau lagi sedih</button>
+      <button class="btn mint" type="button" data-mood="ketawa">Klik kalau butuh ketawa</button>
+      <button class="btn" type="button" data-mood="mikir">Klik kalau kepikiran terus</button>
+    </div>
+    <div class="bubble idle" id="bubble" role="status" aria-live="polite">Pilih satu tombol di atas. Jawabannya udah Okan siapin.</div>
+  </section>
+
+  <section aria-labelledby="h-napas">
+    <div class="head">
+      <h2 id="h-napas">Dua hal kecil buat malam ini</h2>
+      <p>Satu buat napas, satu buat hati.</p>
+    </div>
+    <div class="duo">
+      <div class="panel breath">
+        <h3>Napas bareng</h3>
+        <p class="sub">Ikutin lingkarannya. Tarik 4 detik, tahan 2 detik, buang 6 detik.</p>
+        <div class="stage"><div class="orb" id="orb" aria-hidden="true"></div></div>
+        <div class="orb-label" id="orbLabel" role="status" aria-live="polite">Siap?</div>
+        <button class="btn blue" type="button" id="breathBtn">Mulai</button>
+      </div>
+      <div class="panel hug" id="hugPanel">
+        <h3>Peluk dari Okan</h3>
+        <p class="sub">Pencet sebanyak yang kamu butuhin. Stoknya enggak habis.</p>
+        <div class="hug-count" id="hugCount" role="status" aria-live="polite">Belum ada peluk yang terkirim.</div>
+        <button class="btn pink" type="button" id="hugBtn">Kirim peluk</button>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-surat">
+    <div class="head">
+      <h2 id="h-surat">Surat dari Okan</h2>
+    </div>
+    <article class="letter">
+      <p class="to">Zuca,</p>
+      <p>Okan denger hari ini kamu capek banget. Pulang kerja masih mikirin tim ML, sampai nangis juga. Gapapa. Nangis itu bukan kalah, itu badan kamu bilang kalau udah waktunya istirahat.</p>
+      <p>Okan enggak bisa ngerjain kerjaan kamu, tapi Okan bisa bikin halaman kecil ini biar malam kamu sedikit lebih ringan. Kamu sahabat Okan, dan Okan bangga sama kamu, bahkan di hari pas kamu ngerasa enggak ngapa-ngapain.</p>
+      <p>Tugas kamu malam ini cuma tiga: makan, minum, tidur. Sisanya bisa nunggu besok.</p>
+      <p>Kalau besok masih berat, kabarin Okan. Kita ngobrol, atau Okan temenin diem juga bisa.</p>
+      <p class="sign">Peluk dari jauh,<br>Okan</p>
+    </article>
+  </section>
+
+  <footer>Dibuat Okan buat Zuca, Senin 5 Oktober 2026.</footer>
+</main>
+
+<script>
+(function(){
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* Tombol perasaan */
+  var messages = {
+    capek: [
+      'Taruh dulu semuanya. Kerjaan bisa nunggu, kamu enggak harus ikut ngebut.',
+      'Minum air dulu, terus duduk sebentar. Buat sekarang, itu udah cukup.',
+      'Capek itu tanda kamu udah ngasih banyak hari ini. Hari ini udah selesai.',
+      'Kalau model aja butuh istirahat tiap epoch, kamu juga boleh.'
+    ],
+    sedih: [
+      'Boleh nangis. Biasanya setelah itu napas jadi lebih lega.',
+      'Kamu enggak sendirian ngadepin ini. Okan ada di sini.',
+      'Perasaan kamu masuk akal. Kamu enggak perlu jelasin ke siapa-siapa.',
+      'Malam ini cukup jadi manusia yang lagi capek. Itu bukan kegagalan.'
+    ],
+    ketawa: [
+      'Hari ini kamu jalanin satu epoch yang panjang banget. Waktunya early stopping.',
+      'Kalau ada yang nanya akurasinya berapa, jawab aja 100%, tapi di data training.',
+      'Loss-nya udah turun terus. Tinggal semangat kamu yang kita naikin pelan-pelan.',
+      'Overfitting sama kerjaan itu bahaya. Besok coba tambahin regularisasi: tidur cukup.'
+    ],
+    mikir: [
+      'Tulis satu hal yang masih bisa kamu kerjain malam ini. Cuma satu. Sisanya besok.',
+      'Pikiran jam segini suka dilebih-lebihin. Besok pagi semuanya keliatan lebih kecil.',
+      'Kamu enggak harus nyelesaiin semua di kepala malam ini. Kepala juga perlu tidur.',
+      'Tarik napas dulu, lalu coba tombol napas bareng di bawah.'
+    ]
+  };
+  var last = {};
+  var bubble = document.getElementById('bubble');
+  document.querySelectorAll('[data-mood]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var key = btn.getAttribute('data-mood');
+      var list = messages[key];
+      var i;
+      do { i = Math.floor(Math.random() * list.length); } while (list.length > 1 && i === last[key]);
+      last[key] = i;
+      bubble.textContent = list[i];
+      bubble.classList.remove('idle','pop');
+      void bubble.offsetWidth;
+      bubble.classList.add('pop');
+    });
+  });
+
+  /* Napas bareng */
+  var orb = document.getElementById('orb');
+  var orbLabel = document.getElementById('orbLabel');
+  var breathBtn = document.getElementById('breathBtn');
+  var phases = [
+    {t:'Tarik napas', s:4, scale:1.6},
+    {t:'Tahan', s:2, scale:1.6},
+    {t:'Buang pelan', s:6, scale:1}
+  ];
+  var running = false, timer = null, round = 0;
+  function step(i){
+    if(!running) return;
+    var p = phases[i % phases.length];
+    if(i % phases.length === 0) round++;
+    orbLabel.textContent = p.t + ' (putaran ' + round + ')';
+    if(!reduce){
+      orb.style.transitionDuration = p.s + 's';
+      orb.style.transform = 'scale(' + p.scale + ')';
+    }
+    timer = setTimeout(function(){ step(i + 1); }, p.s * 1000);
+  }
+  breathBtn.addEventListener('click', function(){
+    if(!running){
+      running = true; round = 0;
+      breathBtn.textContent = 'Berhenti';
+      step(0);
+    } else {
+      running = false; clearTimeout(timer);
+      breathBtn.textContent = 'Mulai';
+      orbLabel.textContent = 'Bagus. Udah lebih tenang?';
+      if(!reduce){ orb.style.transitionDuration = '1s'; orb.style.transform = 'scale(1)'; }
+    }
+  });
+
+  /* Peluk */
+  var hugBtn = document.getElementById('hugBtn');
+  var hugCount = document.getElementById('hugCount');
+  var hugPanel = document.getElementById('hugPanel');
+  var hugs = 0;
+  var hugNotes = {
+    1: 'Satu peluk diterima.',
+    5: '5 peluk. Cukup belum?',
+    10: '10 peluk. Sekarang waktunya tidur.',
+    20: '20 peluk. Okan mulai khawatir tanganmu pegal.'
+  };
+  hugBtn.addEventListener('click', function(){
+    hugs++;
+    hugCount.textContent = hugNotes[hugs] || (hugs + ' peluk terkirim.');
+    var h = document.createElement('span');
+    h.className = 'heart';
+    h.setAttribute('aria-hidden','true');
+    h.textContent = '♥';
+    h.style.left = (20 + Math.random() * 60) + '%';
+    hugPanel.appendChild(h);
+    h.addEventListener('animationend', function(){ h.remove(); });
+    setTimeout(function(){ if(h.parentNode) h.remove(); }, 1800);
+  });
+})();
+</script>
+
+</body></html>
